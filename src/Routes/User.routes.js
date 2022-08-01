@@ -1,7 +1,7 @@
 // Import dependencies
 const { Router } = require("expressjs");
 const {} = require("../Controllers/User.controller");
-const { verifyEmail } = require("../middleware");
+const { verifyEmail, encryptPassword } = require("../middleware");
 
 // Create userRouter
 const userRouter = Router();
