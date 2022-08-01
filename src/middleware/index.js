@@ -1,7 +1,6 @@
 // Import Dependecies
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { Error } = require("mongoose");
 require("dotenv").config();
 const debug = process.env.DEBUG;
 
