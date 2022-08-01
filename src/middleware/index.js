@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Error } = require("mongoose");
 require("dotenv").config();
+const debug = process.env.DEBUG;
 
 /**
  * Function will run a RegEx test against an email address to ensure that it is in a valid format, throwing an error if there is either no
@@ -16,7 +17,7 @@ require("dotenv").config();
  */
 exports.verifyEmail = async (req, res, next) => {
 	try {
-		if (process.env.DEBUG) {
+		if (debug) {
 			console.log(`Verifying Email: ${req.body.email}`);
 		}
 		// Regex looks for three distinct groups, deliminated by @ and . With the third group allowed to repeat
@@ -38,7 +39,40 @@ exports.verifyEmail = async (req, res, next) => {
 			throw new Error("No Email Provided");
 		}
 	} catch (error) {
-		console.log("Error verifying Email", error);
+		if (debug) {
+			console.log("Error verifying Email", error);
+		}
+		res.send({
+			success: false,
+			msg: error,
+		});
+	}
+};
+
+/**
+ * Function will encrypt req.body.pass using BCryptJS, utilising the salt from the .env file.
+ * @module Middleware
+ * @function
+ * @param {express.Request} req Express Request Object
+ * @param {express.Response} res Express Response Object
+ * @param {express.NextFunction} next Express Next Middleware Function
+ */
+exports.encryptPassword = async (req, res, next) => {
+	try {
+		// If debugging print plaintext password
+		if (debug) {
+			console.log(`Encrypting Password: ${req.body.pass}`);
+		}
+		if (req.body.pass) {
+			req.body.pass = await bcrypt.hash(req.body.pass, process.env.SALT);
+			next();
+		} else {
+			throw new Error("No password to encrypt.");
+		}
+	} catch (error) {
+		if (debug) {
+			console.log("Error Encrypting Password: ", error);
+		}
 		res.send({
 			success: false,
 			msg: error,
