@@ -6,10 +6,10 @@ require("dotenv").config();
 const debug = process.env.DEBUG;
 
 /**
- * Function will run a RegEx test against an email address to ensure that it is in a valid format, throwing an error if there is either no
- * Email provided to req.body.emailor if the email is not of a valid format
+ * Function will run a RegEx test against an email address to ensure that it is in a valid format,
  * @module Middleware
  * @function
+ * @throws if req.body.email empty or not valid
  * @param {express.Request} req Express request object
  * @param {express.Response} res Express response object
  * @param {express.NextFunction} next Express next middleware function
@@ -53,6 +53,7 @@ exports.verifyEmail = async (req, res, next) => {
  * Function will encrypt req.body.pass using BCryptJS, utilising the salt from the .env file.
  * @module Middleware
  * @function
+ * @throws if no parameter is provided to req.body.pass
  * @param {express.Request} req Express Request Object
  * @param {express.Response} res Express Response Object
  * @param {express.NextFunction} next Express Next Middleware Function
