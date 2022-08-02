@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const debug = process.env.DEBUG;
+
+// set local debug to either equal environment variable or default to false
+const debug = process.env.DEBUG || false; 
 
 /**
  * Function will run a RegEx test against an email address to ensure that it is in a valid format,

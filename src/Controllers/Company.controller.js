@@ -15,6 +15,8 @@ const jwt = require('jsonwebtoken');
 const Company = require('../Models/Company.model');
 const User = require('../Models/User.model');
 
+// set local debug to either equal environment variable or default to false
+const debug = process.env.DEBUG || false; 
 // Company Creation
 /**
  * Function will create a new Company document in the database and return a jwt token for login
