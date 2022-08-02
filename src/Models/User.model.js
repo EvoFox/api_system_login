@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	lastLogin: {
+		type: Date,
+		required: true,
+		default: Date.now(),
+	},
 	// This will be a list of the services that they have access to, controlled by parent company
 	services: [
 		{

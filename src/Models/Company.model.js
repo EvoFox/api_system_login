@@ -20,6 +20,11 @@ const companySchema = new mongoose.Schema({
 		require: true,
 		unique: true,
 	},
+	lastLogin: {
+		type: Date,
+		required: true,
+		default: Date.now(),
+	},
 	// Store a list of services that they have access to
 	services: [
 		{
