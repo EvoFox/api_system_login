@@ -1,5 +1,5 @@
 // Initialise Mongoose
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Define user schema
 const userSchema = new mongoose.Schema({
@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	lastLogin: {
+		type: Date,
+		required: true,
+		default: Date.now(),
+	},
 	// This will be a list of the services that they have access to, controlled by parent company
 	services: [
 		{
@@ -34,7 +39,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Map the schema to a model
-const User = mongoose.model("sys", userSchema);
+const User = mongoose.model('sys', userSchema);
 
 // Export model to be used in ../src/server.js
 module.exports = User;

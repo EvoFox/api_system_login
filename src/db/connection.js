@@ -1,6 +1,6 @@
 // Import dependencies and initialise Mongoose
-require("dotenv").config();
-const mongoose = require("mongoose");
+require('dotenv').config();
+const mongoose = require('mongoose');
 
 const connection = async () => {
 	try {
@@ -12,10 +12,10 @@ const connection = async () => {
 
 		// Attempt to connect to MongoDB using connection string and report success to the console
 		await mongoose.connect(process.env.MONGO_INFRA_URI);
-		console.log("Successful connection");
+		console.log('Successful connection');
 	} catch (error) {
 		// If the code errors out, log the error to the console
-		console.log("Connection Error: ", error);
+		console.log('Connection Error: ', error);
 	}
 };
 
