@@ -1,7 +1,7 @@
 // Import dependencies
-const { Router } = require("expressjs");
-const {} = require("../Controllers/Company.controller");
-const {} = require("../middleware");
+const { Router } = require('expressjs');
+const {} = require('../Controllers/Company.controller');
+const {} = require('../middleware');
 
 // Create companyRouter
 const companyRouter = Router();

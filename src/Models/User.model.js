@@ -1,5 +1,5 @@
 // Initialise Mongoose
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Define user schema
 const userSchema = new mongoose.Schema({
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Map the schema to a model
-const User = mongoose.model("sys", userSchema);
+const User = mongoose.model('sys', userSchema);
 
 // Export model to be used in ../src/server.js
 module.exports = User;

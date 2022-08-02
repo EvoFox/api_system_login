@@ -1,18 +1,18 @@
 // Import Dependencies
-require("./db/connection.js");
-const express = require("expressjs");
-const cors = require("cors");
+require('./db/connection.js');
+const express = require('expressjs');
+const cors = require('cors');
 
 // Import Routers
-const companyRouter = require("./Routes/Company.routes");
-const userRouter = require("./Controllers/User.controller");
+const companyRouter = require('./Routes/Company.routes');
+const userRouter = require('./Controllers/User.controller');
 
 // Set up express server and port
 const app = express();
 const port = process.env.PORT || 5001;
 
 // Make all requests use JSON and allow external requests to be made.
-app.use(express.json({ limit: "100mb" }));
+app.use(express.json({ limit: '100mb' }));
 app.use(cors);
 
 // Add routers to server

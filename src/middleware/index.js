@@ -1,7 +1,6 @@
-// Import Dependecies
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const debug = process.env.DEBUG;
 
 /**
@@ -31,15 +30,15 @@ exports.verifyEmail = async (req, res, next) => {
 				next();
 			} else {
 				// End process here, email is invalid
-				throw new Error("Invalid Email Format");
+				throw new Error('Invalid Email Format');
 			}
 		} else {
 			// End process here, no email provided
-			throw new Error("No Email Provided");
+			throw new Error('No Email Provided');
 		}
 	} catch (error) {
 		if (debug) {
-			console.log("Error verifying Email", error);
+			console.log('Error verifying Email', error);
 		}
 		res.send({
 			success: false,
@@ -67,11 +66,11 @@ exports.encryptPassword = async (req, res, next) => {
 			req.body.pass = await bcrypt.hash(req.body.pass, process.env.SALT);
 			next();
 		} else {
-			throw new Error("No password to encrypt.");
+			throw new Error('No password to encrypt.');
 		}
 	} catch (error) {
 		if (debug) {
-			console.log("Error Encrypting Password: ", error);
+			console.log('Error Encrypting Password: ', error);
 		}
 		res.send({
 			success: false,
