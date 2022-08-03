@@ -1,9 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Company = require('../Models/Company.model');
 require('dotenv').config();
 
 // set local debug to either equal environment variable or default to false
-const debug = process.env.DEBUG || false; 
+const debug = process.env.DEBUG || false;
 
 /**
  * Function will run a RegEx test against an email address to ensure that it is in a valid format,
@@ -89,7 +90,7 @@ exports.encryptPassword = async (req, res, next) => {
  * @param {Express.Response} res Express response object
  * @param {Express.NextFunction} next Express next function
  */
-exports.updateLastLogin = (req, res, next) => {
+exports.updateLastLogin = async (req, res, next) => {
 	try {
 		// Add date to request object for storing in database
 		req.body.lastLogin = Date.now();
@@ -100,6 +101,76 @@ exports.updateLastLogin = (req, res, next) => {
 			console.log('Error updating last login: ', error);
 		}
 
+		res.send({
+			success: false,
+			msg: error,
+		});
+	}
+};
+
+/**
+ * Function will be called when attempting to login, and will check if the user has an existing token
+ * @module Middleware
+ * @middleware
+ * @param {Express.Request} req Express request object
+ * @param {Express.Response} res Express response object
+ * @param {Express.NextFunction} next Express next function
+ */
+exports.tokenCheck = async (req, res, next) => {
+	try {
+		if (debug) {
+			// Log sensitive information for debugging
+			console.log(req.header('Authorization'));
+			console.log(jwt.verify(req.header('Authorization')));
+		}
+		// If the request contains a token, assign its contents to req.user and move to comparePass
+		if (req.header('Authorization')) {
+			req.user = jwt.verify(req.header('Authorization'));
+			next();
+		} else {
+			// otherwise move onto comparePass without req.user;
+			next();
+		}
+	} catch (error) {
+		if (debug) {
+			console.log(`tokenCheck Error: ${error}`);
+		}
+		res.send({
+			success: false,
+			msg: error,
+		});
+	}
+};
+
+exports.comparePass = async (req, res, next) => {
+	try {
+		if (debug) {
+			// Log sensitive information for debugging
+			console.log('Company ComparePass Middleware');
+			console.log({ 'req.body': req.body });
+			console.log({ 'req.user': req.user });
+		}
+
+		// if req.user doesn't exist, create it based on req.body (making sure to search on correct database schema)
+		if (!req.user) {
+			if ((req.body.type = 'company')) {
+				req.user = await Company.findById(req.body.id);
+			} else {
+				req.user = await User.findById(req.body.id);
+			}
+		}
+
+		// check if user entered password matches password in database, if so, move on to the next step
+		if (await bcrypt.compare(req.body.pass, req.user.pass)) {
+			next();
+		} else {
+			// otherwise throw error
+			throw new Error('Invalid login information');
+		}
+	} catch (error) {
+		if (debug) {
+			console.log(`comparePass error: ${error}`);
+		}
 		res.send({
 			success: false,
 			msg: error,
