@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
 		required: true,
 	},
 	// Encrypted with BCryptJS, 15 salt rounds
-	password: {
+	pass: {
 		type: String,
 		required: true,
 	},
@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
 	email: {
 		type: String,
 		required: true,
+	},
+	lastLogin: {
+		type: Date,
+		required: true,
+		default: Date.now(),
 	},
 	// This will be a list of the services that they have access to, controlled by parent company
 	services: [
