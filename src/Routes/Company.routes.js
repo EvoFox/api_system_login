@@ -1,10 +1,10 @@
 // Import dependencies
 const { Router } = require('expressjs');
 const {
-	create,
-	login,
-	update,
-	remove,
+	createCompany,
+	loginCompany,
+	updateCompany,
+	removeCompany,
 } = require('../Controllers/Company.controller');
 const {
 	verifyEmail,
@@ -24,18 +24,19 @@ companyRouter.post(
 	'/login/company',
 	verifyEmail,
 	encryptPassword,
+	comparePass,
 	updateLastLogin,
-	login
+	loginCompany
 );
 
-// create company after verifying email and encrypting password
-companyRouter.post('/sign-up/company',encryptPassword, tokenCheck,comparePass,  create);
+// create company after encrypting password, and checking if token is valid
+companyRouter.post('/sign-up/company', encryptPassword, tokenCheck,comparePass,  createCompany);
 
 // update company after verifying email and encrypting password
-companyRouter.patch('/update/company', tokenCheck, update);
+companyRouter.patch('/update/company', tokenCheck, updateCompany);
 
 // delete company
-companyRouter.delete('/delete/company', remove);
+companyRouter.delete('/delete/company', removeCompany);
 
 // Export companyRouter
 module.exports = companyRouter;
