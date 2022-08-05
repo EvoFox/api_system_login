@@ -30,15 +30,25 @@ userRouter.post(
 	createUser
 );
 
+// login user after encrypting password and updating last login to current time
 userRouter.post(
 	'/login/user',
-	
+
 	encryptPassword,
 	updateLastLogin,
 	loginUser
 );
-userRouter.patch('/update/company', tokenCheck, updateUser);
 
+// update user after verifying email and encrypting password
+userRouter.patch(
+	'/update/company',
+	verifyEmail,
+	tokenCheck,
+	encryptPassword,
+	updateUser
+);
+
+// delete user
 userRouter.delete('/delete/user', removeUser);
 // Export userRouter
 module.exports = userRouter;
