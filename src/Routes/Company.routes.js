@@ -19,21 +19,33 @@ const companyRouter = Router();
 
 // Define routes
 
-// login company after login verifying email, encrypt password and setting last login to current time.
+// login company after login encrypt password and setting last login to current time.
 companyRouter.post(
 	'/login/company',
-	verifyEmail,
 	encryptPassword,
 	comparePass,
 	updateLastLogin,
 	loginCompany
 );
 
-// create company after encrypting password, and checking if token is valid
-companyRouter.post('/sign-up/company', encryptPassword, tokenCheck,comparePass,  createCompany);
+// create company after verifying email, encrypting password, and checking if token is valid
+companyRouter.post(
+	'/sign-up/company',
+	verifyEmail,
+	encryptPassword,
+	tokenCheck,
+	comparePass,
+	createCompany
+);
 
 // update company after verifying email and encrypting password
-companyRouter.patch('/update/company', tokenCheck, updateCompany);
+companyRouter.patch(
+	'/update/company',
+	verifyEmail,
+	tokenCheck,
+	encryptPassword,
+	updateCompany
+);
 
 // delete company
 companyRouter.delete('/delete/company', removeCompany);
