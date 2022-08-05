@@ -127,7 +127,7 @@ exports.updateUser = async (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-exports.deleteUser = async (req, res) => {
+exports.removeUser = async (req, res) => {
 	try {
 		if (debug) {
 			console.log(`deleteUser: ${req.body}`);
