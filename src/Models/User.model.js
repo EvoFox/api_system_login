@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
 	// This will be checked against the Company schema to ensure validity
 	company: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
 		unique: false,
 		require: true,
 	},
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
 		required: true,
 	},
 	// Encrypted with BCryptJS, 15 salt rounds
-	password: {
+	pass: {
 		type: String,
 		required: true,
 	},
