@@ -65,6 +65,7 @@ exports.loginUser = async (req, res) => {
 				success: true,
 				msg: `${req.body.name} logged in successfully`,
 				token: req.token,
+				name: req.user.name,
 			});
 		}
 		if (req.user) {

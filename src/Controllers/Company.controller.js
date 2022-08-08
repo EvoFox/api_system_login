@@ -32,7 +32,8 @@ exports.createCompany = async (req, res) => {
 
 		// Create a JWT token based on newCompany and set an expiry for 1 day
 		const token = jwt.sign({ newCompany }, process.env.SECRET, {
-			expiresIn: '1d', returnDocument: 'after'
+			expiresIn: '1d',
+			returnDocument: 'after',
 		});
 
 		// Additional logging of sensitive information for debugging purposes
@@ -73,7 +74,11 @@ exports.loginCompany = async (req, res) => {
 			console.log(`Found company ${req.user.companyName}, logging in...`);
 
 			// Update last login time
-			const company = Company.updateOne(req.user, { lastLogin: req.body.lastLogin }, {returnDocument: 'after'});
+			const company = Company.updateOne(
+				req.user,
+				{ lastLogin: req.body.lastLogin },
+				{ returnDocument: 'after' }
+			);
 
 			// Generate a new login token with expiry time of 1 day
 			req.token = jwt.sign(req.user, process.env.SECRET, { expiresIn: '1d' });
@@ -83,7 +88,8 @@ exports.loginCompany = async (req, res) => {
 				success: true,
 				msg: `${req.body.companyName} logged in successfully`,
 				token: req.token,
-				company: company._id
+				company: company._id,
+				name: company.companyName,
 			});
 		} else {
 			throw new Error("Couldn't login with credentials");
@@ -162,8 +168,3 @@ exports.removeCompany = async (req, res) => {
 		}
 	}
 };
-
-
-
-
-
