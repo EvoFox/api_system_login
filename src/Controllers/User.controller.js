@@ -56,7 +56,11 @@ exports.loginUser = async (req, res) => {
 			console.log(`Found user ${req.user.name}, logging in...`);
 
 			// Update the last login time
-			User.updateOne(req.user, { lastLogin: req.body.lastLogin });
+			const User = User.updateOne(
+				req.user,
+				{ lastLogin: req.body.lastLogin },
+				{ returnDocument: 'after' }
+			);
 
 			// Generate a new login token with expiresIn: '1d'
 			req.token = jwt.sign(req.user, process.env.SECRET, { expiresIn: '1d' });
@@ -65,7 +69,8 @@ exports.loginUser = async (req, res) => {
 				success: true,
 				msg: `${req.body.name} logged in successfully`,
 				token: req.token,
-				name: req.user.name,
+				company: User.company,
+				name: User.name,
 			});
 		}
 		if (req.user) {
