@@ -38,6 +38,9 @@ userRouter.post(
 	updateLastLogin,
 	loginUser
 );
+	
+	userRouter.get('/login/user', tokenCheck, updateLastLogin, loginuser);
+
 
 // update user after verifying email and encrypting password
 userRouter.patch(
