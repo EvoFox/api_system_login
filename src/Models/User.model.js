@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Map the schema to a model
-const User = mongoose.model('sys', userSchema);
+const User = mongoose.model('system.User', userSchema);
 
 // Export model to be used in ../src/server.js
 module.exports = User;

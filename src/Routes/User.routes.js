@@ -1,5 +1,6 @@
 // Import dependencies
-const { Router } = require('expressjs');
+const { Router } = require('express');
+
 const {
 	loginUser,
 	createUser,
@@ -31,16 +32,9 @@ userRouter.post(
 );
 
 // login user after encrypting password and updating last login to current time
-userRouter.post(
-	'/login/user',
+userRouter.post('/login/user', encryptPassword, updateLastLogin, loginUser);
 
-	encryptPassword,
-	updateLastLogin,
-	loginUser
-);
-	
-	userRouter.get('/login/user', tokenCheck, updateLastLogin, loginuser);
-
+userRouter.get('/login/user', tokenCheck, updateLastLogin, loginUser);
 
 // update user after verifying email and encrypting password
 userRouter.patch(
@@ -53,5 +47,6 @@ userRouter.patch(
 
 // delete user
 userRouter.delete('/delete/user', removeUser);
+
 // Export userRouter
 module.exports = userRouter;

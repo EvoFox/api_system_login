@@ -1,11 +1,11 @@
 // Import Dependencies
 require('./db/connection.js');
-const express = require('expressjs');
+const express = require('express');
 const cors = require('cors');
 
 // Import Routers
 const companyRouter = require('./Routes/Company.routes');
-const userRouter = require('./Controllers/User.controller');
+const userRouter = require('./Routes/User.routes');
 
 // Set up express server and port
 const app = express();

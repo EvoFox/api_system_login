@@ -1,11 +1,13 @@
 // Import dependencies
-const { Router } = require('expressjs');
+const { Router } = require('express');
+
 const {
 	createCompany,
 	loginCompany,
 	updateCompany,
 	removeCompany,
 } = require('../Controllers/Company.controller');
+
 const {
 	verifyEmail,
 	encryptPassword,
@@ -51,6 +53,7 @@ companyRouter.patch(
 
 // delete company
 companyRouter.delete('/delete/company', removeCompany);
+
 
 // Export companyRouter
 module.exports = companyRouter;
