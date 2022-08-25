@@ -1,10 +1,6 @@
 // Import Dependencies
-// Database Connection
 require('./db/connection.js');
-
-// Express Web Server
 const express = require('express');
-// Cross Origin Resource Sharing
 const cors = require('cors');
 
 // Import Routers
