@@ -54,6 +54,5 @@ companyRouter.patch(
 // delete company
 companyRouter.delete('/delete/company', removeCompany);
 
-
 // Export companyRouter
-module.exports = companyRouter;
+module.exports = { companyRouter };

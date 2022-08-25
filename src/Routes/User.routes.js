@@ -49,4 +49,4 @@ userRouter.patch(
 userRouter.delete('/delete/user', removeUser);
 
 // Export userRouter
-module.exports = userRouter;
+module.exports = { userRouter };

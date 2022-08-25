@@ -5,7 +5,7 @@ const cors = require('cors');
 
 // Import Routers
 const { companyRouter } = require('./Routes/Company.routes');
-const userRouter = require('./Routes/User.routes');
+const { userRouter } = require('./Routes/User.routes');
 
 // Set up express server and port
 const app = express();
@@ -17,7 +17,7 @@ app.use(cors());
 
 // Add routers to server
 app.use(companyRouter);
-// app.use(userRouter);
+app.use(userRouter);
 
 // Listen on provided port, or default to 5001
 app.listen(_PORT, () => {
