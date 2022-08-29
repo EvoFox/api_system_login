@@ -5,7 +5,7 @@ require('dotenv').config();
 
 // set local debug to either equal environment variable or default to false
 const debug = process.env.DEBUG || false;
-
+const SALT = parseInt(process.env.SALT) || 8;
 /**
  * Function will run a RegEx test against an email address to ensure that it is in a valid format,
  * @module Middleware
@@ -64,9 +64,10 @@ exports.encryptPassword = async (req, res, next) => {
 		// If debugging print plaintext password
 		if (debug) {
 			console.log(`Encrypting Password: ${req.body.pass}`);
+			console.log(`Encryption Salt: ${SALT}`);
 		}
 		if (req.body.pass) {
-			req.body.pass = await bcrypt.hash(req.body.pass, process.env.SALT);
+			req.body.pass = await bcrypt.hash(req.body.pass, SALT);
 			next();
 		} else {
 			throw new Error('No password to encrypt.');
@@ -77,7 +78,7 @@ exports.encryptPassword = async (req, res, next) => {
 		}
 		res.send({
 			success: false,
-			msg: error,
+			msg: 'Error Encrypting Password',
 		});
 	}
 };
@@ -120,8 +121,11 @@ exports.tokenCheck = async (req, res, next) => {
 	try {
 		if (debug) {
 			// Log sensitive information for debugging
-			console.log(req.header('Authorization'));
-			console.log(jwt.verify(req.header('Authorization')));
+			if (req.header('Authorization'))
+			{
+				console.log(req.header('Authorization'));
+				console.log(jwt.verify(req.header('Authorization')));
+			}
 		}
 		// If the request contains a token, assign its contents to req.user and move to comparePass
 		if (req.header('Authorization')) {

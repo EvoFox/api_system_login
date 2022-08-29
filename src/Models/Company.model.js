@@ -34,7 +34,7 @@ const companySchema = new mongoose.Schema({
 });
 
 // Map schema to model
-const Company = mongoose.model('system.company', companySchema);
+const Company = mongoose.model('Company', companySchema);
 
 // Export for use in ../src/server.js
 module.exports = Company;
