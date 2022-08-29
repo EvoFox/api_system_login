@@ -78,7 +78,7 @@ exports.encryptPassword = async (req, res, next) => {
 		}
 		res.send({
 			success: false,
-			msg: 'Error Encrypting Password',
+			msg: `Error Encrypting Password: ${error.message}`,
 		});
 	}
 };
@@ -121,8 +121,7 @@ exports.tokenCheck = async (req, res, next) => {
 	try {
 		if (debug) {
 			// Log sensitive information for debugging
-			if (req.header('Authorization'))
-			{
+			if (req.header('Authorization')) {
 				console.log(req.header('Authorization'));
 				console.log(jwt.verify(req.header('Authorization')));
 			}
@@ -152,18 +151,20 @@ exports.comparePass = async (req, res, next) => {
 			// Log sensitive information for debugging
 			console.log('Company ComparePass Middleware');
 			console.log({ 'req.body': req.body });
-			console.log({ 'req.user': req.user });
 		}
 
 		// if req.user doesn't exist, create it based on req.body (making sure to search on correct database schema)
 		if (!req.user) {
-			if ((req.body.type = 'company')) {
-				req.user = await Company.findById(req.body.id);
+			if (req.body.type == 'company') {
+				req.user = await Company.findOne({ companyName: req.body.companyName });
 			} else {
-				req.user = await User.findById(req.body.id);
+				req.user = await User.findOne({ email: req.body.email });
 			}
 		}
 
+		if (debug) {
+			console.log(req.user);
+		}
 		// check if user entered password matches password in database, if so, move on to the next step
 		if (await bcrypt.compare(req.body.pass, req.user.pass)) {
 			next();
@@ -173,7 +174,7 @@ exports.comparePass = async (req, res, next) => {
 		}
 	} catch (error) {
 		if (debug) {
-			console.log(`comparePass error: ${error}`);
+			console.log(`comparePass error: \n${error.stack}`);
 		}
 		res.send({
 			success: false,

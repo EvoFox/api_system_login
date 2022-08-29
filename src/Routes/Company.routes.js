@@ -33,7 +33,6 @@ companyRouter.post(
 // login company after login encrypt password and setting last login to current time.
 companyRouter.post(
 	'/login/company',
-	encryptPassword,
 	comparePass,
 	updateLastLogin,
 	loginCompany

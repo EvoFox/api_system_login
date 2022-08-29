@@ -33,7 +33,6 @@ exports.createCompany = async (req, res) => {
 		// Create a JWT token based on newCompany and set an expiry for 1 day
 		const token = jwt.sign({ newCompany }, process.env.SECRET, {
 			expiresIn: '1d',
-			returnDocument: 'after',
 		});
 
 		// Additional logging of sensitive information for debugging purposes
@@ -50,7 +49,9 @@ exports.createCompany = async (req, res) => {
 		});
 	} catch (error) {
 		res.send({
-			ok: false,
+			success: false,
+			code: error.code,
+			msg: `Error creating company: ${error.message}`,
 		});
 	}
 };
@@ -74,14 +75,16 @@ exports.loginCompany = async (req, res) => {
 			console.log(`Found company ${req.user.companyName}, logging in...`);
 
 			// Update last login time
-			const company = Company.updateOne(
+			const company = await Company.updateOne(
 				req.user,
 				{ lastLogin: req.body.lastLogin },
 				{ returnDocument: 'after' }
 			);
 
 			// Generate a new login token with expiry time of 1 day
-			req.token = jwt.sign(req.user, process.env.SECRET, { expiresIn: '1d' });
+			req.token = jwt.sign({ company }, process.env.SECRET, {
+				expiresIn: '1d',
+			});
 
 			// Send response to front end marking request successful, with a message and token value
 			res.send({
@@ -96,7 +99,7 @@ exports.loginCompany = async (req, res) => {
 		}
 	} catch (error) {
 		if (debug) {
-			console.log(`Error logging in company: ${error}`);
+			console.log(`Error logging in company:\n${error.stack}`);
 		}
 		res.send({
 			success: false,
