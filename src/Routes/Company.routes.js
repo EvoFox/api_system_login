@@ -27,7 +27,6 @@ companyRouter.post(
 	verifyEmail,
 	encryptPassword,
 	tokenCheck,
-	comparePass,
 	createCompany
 );
 
